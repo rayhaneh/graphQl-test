@@ -92,7 +92,7 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { title, rating, authorId, avatar, relatedBooks }) {
         return axios.post('http://localhost:3000/books', { title, rating, authorId, relatedBooks })
-          .then(res => res.data);
+          .then(res => res.data)
       }
     },
     deleteBook: {
