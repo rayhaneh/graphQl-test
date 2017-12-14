@@ -6,11 +6,15 @@
       "rating": 4,
       "avatar": "https://images.gr-assets.com/books/1366277459l/43236.jpg",
       "authorId": 10,
-      "relatedBooks": [504, 1364, 999]
+      "relatedBooks": [
+        504,
+        1364,
+        999
+      ]
     },
     {
       "id": 321,
-      "title" : "React: Up and Running",
+      "title": "React: Up and Running",
       "rating": 3.6,
       "avatar": "https://images.gr-assets.com/books/1450285051l/26177715.jpg",
       "authorId": 6,
@@ -22,50 +26,62 @@
       "rating": 4.1,
       "avatar": "https://images.gr-assets.com/books/1308260856l/8910666.jpg",
       "authorId": 1,
-      "relatedBooks": [4, 1364, 999]
+      "relatedBooks": [
+        4,
+        1364,
+        999
+      ]
     },
     {
-      "id": 613, 
-      "title": "JavaScript for PHP Developers", 
-      "rating": 4.4, 
+      "id": 613,
+      "title": "JavaScript for PHP Developers",
+      "rating": 4.4,
       "avatar": "https://images.gr-assets.com/books/1344729047l/13355766.jpg",
       "authorId": 6,
       "relatedBooks": []
     },
     {
-      "id": 999, 
-      "title": "Object-Oriented JavaScript", 
-      "rating": 4.2, 
+      "id": 999,
+      "title": "Object-Oriented JavaScript",
+      "rating": 4.2,
       "avatar": "https://images.gr-assets.com/books/1348118023l/4355468.jpg",
       "authorId": 6,
-      "relatedBooks": [4, 504, 1364]
+      "relatedBooks": [
+        4,
+        504,
+        1364
+      ]
     },
     {
-      "id": 1364, 
-      "title": "JavaScript Patterns", 
-      "rating": 4, 
-      "avatar": "https://images.gr-assets.com/books/1344668503l/9422683.jpg", 
+      "id": 1364,
+      "title": "JavaScript Patterns",
+      "rating": 4,
+      "avatar": "https://images.gr-assets.com/books/1344668503l/9422683.jpg",
       "authorId": 6,
-      "relatedBooks": [504, 999, 4]
+      "relatedBooks": [
+        504,
+        999,
+        4
+      ]
     }
   ],
   "authors": [
     {
-      "id": 1, 
-      "name": "Marijn Haverbeke", 
-      "twitter": "@MarijnJH", 
+      "id": 1,
+      "name": "Marijn Haverbeke",
+      "twitter": "@MarijnJH",
       "avatar": ""
     },
     {
-      "id": 6, 
-      "name": "Stoyan Stefanov", 
-      "twitter": "@stoyanstefanov", 
+      "id": 6,
+      "name": "Stoyan Stefanov",
+      "twitter": "@stoyanstefanov",
       "avatar": "https://images-na.ssl-images-amazon.com/images/I/21hXVrnOPsL._UX250_.jpg"
     },
     {
-      "id": 10, 
-      "name": "Paul DuBois", 
-      "twitter": "", 
+      "id": 10,
+      "name": "Paul DuBois",
+      "twitter": "",
       "avatar": ""
     }
   ]

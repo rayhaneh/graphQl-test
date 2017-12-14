@@ -6,36 +6,48 @@ const {
   GraphQLInt,
   GraphQLSchema,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLFloat
 } = graphQL
 
-const CompanyType = new GraphQLObjectType({
-  name: 'Company',
+
+
+const AuthorType = new GraphQLObjectType({
+  name: 'Author',
   fields:  () => ({
     id: {type: GraphQLInt},
     name: {type: GraphQLString},
-    description: {type: GraphQLString},
-    users: {
-      type: new GraphQLList(UserType),
+    twitter: {type: GraphQLString},
+    avatar: {type: GraphQLString},
+    books: {
+      type: new GraphQLList(BookType),
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/companies/${parentValue.id}/users`)
+        return axios.get(`http://localhost:3000/companies/${parentValue.id}/books`)
           .then(res => res.data)
       }
     }
   })
 })
 
-
-const UserType = new GraphQLObjectType({
-  name: 'User',
+const BookType = new GraphQLObjectType({
+  name: 'Book',
   fields: () => ({
     id: {type: GraphQLInt},
-    firstName: {type: GraphQLString},
-    age: {type: GraphQLInt},
-    company: {
-      type: CompanyType,
+    title: {type: GraphQLString},
+    rating: {type: GraphQLFloat},
+    relatedBooks: {
+      type: new GraphQLList(BookType),
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)
+        return parentValue.relatedBooks.map(id => 
+          axios.get(`http://localhost:3000/books/${id}`)
+          .then(res => res.data)
+        )
+      }
+    },
+    author: {
+      type: AuthorType,
+      resolve(parentValue, args) {
+        return axios.get(`http://localhost:3000/authors/${parentValue.authorId}`)
         .then(res => res.data)
       }
     }
@@ -46,20 +58,19 @@ const UserType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    user: {
-      type: UserType,
+    book: {
+      type: BookType,
       args: {id: {type: GraphQLInt}},
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/users/${args.id}`)
+        return axios.get(`http://localhost:3000/books/${args.id}`)
           .then(res => res.data)
       }
     },
-    company: {
-      type: CompanyType,
+    author: {
+      type: AuthorType,
       args: {id: {type: GraphQLInt}},
       resolve(parentValue, args) {
-        // return _.find(users, {id: args.id});
-        return axios.get(`http://localhost:3000/companies/${args.id}`)
+        return axios.get(`http://localhost:3000/authors/${args.id}`)
           .then(res => res.data)
       }
     }
@@ -70,39 +81,42 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addUser: {
-      type: UserType,
+    addBook: {
+      type: BookType,
       args: {
-        firstName: {type: new GraphQLNonNull(GraphQLString)},
-        age: { type: GraphQLInt },
-        companyId: { type: GraphQLString }
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        rating: { type: GraphQLFloat },
+        authorId: { type: GraphQLInt },
+        avatar:  {type: GraphQLString },
+        relatedBooks: {type: new GraphQLList(GraphQLInt)}
       },
-      resolve(parentValue, { firstName, age, companyId }) {
-        return axios.post('http://localhost:3000/users', { firstName, age, companyId })
+      resolve(parentValue, { title, rating, authorId, avatar, relatedBooks }) {
+        return axios.post('http://localhost:3000/books', { title, rating, authorId, relatedBooks })
           .then(res => res.data);
       }
     },
-    deleteUser: {
-      type: UserType,
+    deleteBook: {
+      type: BookType,
       args: {
         id: {type: new GraphQLNonNull(GraphQLInt)}
       }, 
       resolve(parentValue, { id }) {
-        return axios.delete(`http://localhost:3000/users/${id}`)
+        return axios.delete(`http://localhost:3000/books/${id}`)
           .then(res => res.data)
       }
     },
-    editUser: {
-      type: UserType,
+    editBook: {
+      type: BookType,
       args: {
         id: {type: new GraphQLNonNull(GraphQLInt)},
-        firstName: {type: GraphQLString},
-        companyId: {type: GraphQLInt},
-        age: {type: GraphQLInt}
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        rating: { type: GraphQLFloat },
+        authorId: { type: GraphQLInt },
+        avatar:  {type: GraphQLString },
+        relatedBooks: {type: new GraphQLList(GraphQLInt)}
       }, 
       resolve(parentValue, args) {
-        // json-server doesn't update id with patch request if we provide one
-        return axios.patch(`http://localhost:3000/users/${args.id}`, args)
+        return axios.patch(`http://localhost:3000/books/${args.id}`, args)
           .then(res => res.data)
       }
     }
