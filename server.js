@@ -9,8 +9,8 @@ const app = express();
 
 
 app.use('/graphql', expressGraphQL({
-  schema, 
-  graphiql: true,
+  schema,
+  graphiql: false,
 }));
 
 
